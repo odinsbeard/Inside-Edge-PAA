@@ -3,7 +3,7 @@
 #min number of innings to 0 so that pitchers get included; if you only use qualified you won't get pitchers.  Also you won't have the 'true'
 #average, only the average from qualified fielders.   You'll need to select split seasons (even if you only want one season), otherwise you'll be missing a 'Season' column in the csv and this will throw off all column calls on the script by one.
 
-# Set variable 'filename' to the name of the file
+# Set variable 'filename' to the name of the csv file.
 library(plyr)
 
 d = read.csv(filename)
