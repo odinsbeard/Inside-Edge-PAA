@@ -1,7 +1,8 @@
 #Inside Edge script
 #Set working directory to wherever you have this script and a fangraphs leaderboard csv.  When you export the data, you should set the 
 #min number of innings to 0 so that pitchers get included; if you only use qualified you won't get pitchers.  Also you won't have the 'true'
-#average, only the average from qualified fielders.
+#average, only the average from qualified fielders.   You'll need to select split seasons (even if you only want one season), otherwise you'll be missing a 'Season' column in the csv and this will throw off all column calls on the script by one.
+
 # Set variable 'filename' to the name of the file
 library(plyr)
 
