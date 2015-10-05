@@ -1,9 +1,8 @@
 #Inside Edge script
 #Set working directory to wherever you have this script and a fangraphs leaderboard csv.  When you export the data, you should set the 
 #min number of innings to 0 so that pitchers get included; if you only use qualified you won't get pitchers.  Also you won't have the 'true'
-#average, only the average from qualified fielders.   You'll need to select split seasons (even if you only want one season), otherwise you'll be missing a 'Season' column in the csv and this will throw off all column calls on the script by one.
-
-# Set variable 'filename' to the name of the csv file.
+#average, only the average from qualified fielders.
+# Set variable 'filename' to the name of the file
 library(plyr)
 
 d = read.csv(filename)
@@ -158,8 +157,10 @@ d.rf$PAA = d.rf$Remote.Made + d.rf$Unlikely.Made + d.rf$Even.Made + d.rf$Likely.
 
 defense <- rbind(d.p,d.c,d.1b,d.2b,d.3b,d.ss,d.lf,d.cf,d.rf)
 
+paa <- defense
+
 defense <- defense[order(defense$PAA),]
-defense$PAA = round(defense$PAA,digits=2)
+defense$PAA = round(defense$PAA,digits=1)
 defense$Easy.Play.Pct = round(defense$Easy.Plays/defense$Total.Plays,digits=2)
 defense$PAA.per.150.Inn = round(defense$PAA/defense$Inn*150,digits=2)
 defense$PAA.per.100.Plays = round(defense$PAA/defense$Total.Plays*100,digits=2)
@@ -176,8 +177,36 @@ d.of$PAA = d.of$Remote.Made + d.of$Unlikely.Made + d.of$Even.Made + d.of$Likely.
 
 d.of <- d.of[order(d.of$PAA),]
 
-d.of$PAA = round(d.of$PAA,digits=2)
-d.of$Easy.Play.Pct = round(d.of$Easy.Plays/d.of$Total.Plays,digits=2)
-d.of$PAA.per.150 = round(d.of$PAA/d.of$Inn*150,digits=2)
-d.of$PAA.per.100.Plays = round(d.of$PAA/d.of$Total.Plays*100,digits=2)
 
+
+d.of$PAA = round(d.of$PAA,digits=2)
+d.of$Easy.Play.Pct = round(d.of$Easy.Plays/d.of$Total.Plays,digits=1)
+d.of$PAA.per.150 = round(d.of$PAA/d.of$Inn*150,digits=2)
+d.of$PAA.per.100.Plays = round(d.of$PAA/d.of$Total.Plays*100,digits=1)
+
+paa$Plays.Made = paa$Unlikely.Made + paa$Remote.Made + paa$Even.Made + paa$Likely.Made + paa$Routine.Made
+
+paa$playerid = NULL
+paa$Impossible.Total = NULL
+paa$Remote.Total = NULL
+paa$Remote.Pct = NULL
+paa$Remote.Made = NULL
+paa$Unlikely.Total = NULL
+paa$Unlikely.Pct = NULL
+paa$Unlikely.Made = NULL
+paa$Even.Total = NULL
+paa$Even.Pct = NULL
+paa$Even.Made = NULL
+paa$Likely.Total = NULL
+paa$Likely.Pct = NULL
+paa$Likely.Made = NULL
+paa$Routine.Total = NULL
+paa$Routine.Pct = NULL
+paa$Routine.Made = NULL
+paa$Hard.Plays = NULL
+paa$Easy.Plays = NULL
+paa$expected.plays <- round(paa$expected.plays,digits=1)
+paa$PAAper100 = round(paa$PAA/paa$Total.Plays*100,digits=1)
+paa$PAA = round(paa$PAA,digits=1)
+paa <- paa[c("Season","Name","Team","Pos","Inn","Plays.Made","Total.Plays","expected.plays","PAA","PAAper100")]
+paa <- paa[order(-paa$PAA),]
